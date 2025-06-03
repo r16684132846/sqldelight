@@ -67,7 +67,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 private fun appBarTitle(openedExample: DisplayItem?, skiaRender: Boolean = true): String {
     val title =
-        if (skiaRender) "腾讯视频 Compose - Skia" else "腾讯视频 Compose - UIKit"
+        if (skiaRender) "Tencent Video Compose - Skia" else "Tencent Video Compose - UIKit"
 
     val childTitle =
         if (skiaRender) "${openedExample?.title} - Skia" else "${openedExample?.title} - UIKit"

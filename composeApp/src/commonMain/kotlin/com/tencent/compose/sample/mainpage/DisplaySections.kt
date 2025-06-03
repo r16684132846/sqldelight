@@ -75,14 +75,14 @@ internal fun displaySections(): List<DisplaySection> {
             )
         ),
         DisplaySection(
-            sectionTitle = "输入框",
+            sectionTitle = "Input Box",
             items = listOf(
                 DisplayItem("keyboard-type", Res.drawable.text_field) { TextField2() },
                 DisplayItem("alert-type", Res.drawable.text_field) { TextField3() },
             )
         ),
         DisplaySection(
-            sectionTitle = "混排和手势",
+            sectionTitle = "Mixed native UI & Gesture",
             items = listOf(
                 DisplayItem("NestedScrollDemo", Res.drawable.scroll) { NestedScrollDemo() },
                 DisplayItem("MultiTouches", Res.drawable.multi_touch) { MultiTouches() },
@@ -90,10 +90,10 @@ internal fun displaySections(): List<DisplaySection> {
             ) + platformSections()
         ),
         DisplaySection(
-            sectionTitle = "其他",
+            sectionTitle = "Others",
             items = listOf(
-                DisplayItem("小球碰撞", Res.drawable.balls) { BouncingBallsApp() },
-                DisplayItem("小球下落", Res.drawable.falling) { FallingBalls() },
+                DisplayItem("Bouncing Balls", Res.drawable.balls) { BouncingBallsApp() },
+                DisplayItem("Falling Balls", Res.drawable.falling) { FallingBalls() },
                 DisplayItem("DropdownMenu", Res.drawable.menu) { DropdownMenu() },
                 DisplayItem("GradientLine", Res.drawable.gradient) { LinearGradientLine() }
             )
