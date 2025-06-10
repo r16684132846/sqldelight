@@ -29,7 +29,7 @@ ovCompose (online-video-compose) is a cross-platform development framework launc
    [versions]
    agp = "8.5.2"
    compose-plugin = "1.6.1-KBA-002"
-   kotlin = "2.0.21-KBA-004"
+   kotlin = "2.0.21-KBA-005"
    kotlinx-coroutines = "1.8.0-KBA-001"
    
    [libraries]
