@@ -535,3 +535,8 @@ UIKit模式已在腾讯视频iOS中广泛采用，并且从业务反馈中没有
 
 ## License
 ovCompose-sample 基于 Apache 2.0 协议发布，详见：[License](License.txt)
+
+## 欢迎关注交流
+欢迎扫码下方二维码关注最新动态或咨询交流。
+
+<img alt="ovCompose support" src="img/support.png" />

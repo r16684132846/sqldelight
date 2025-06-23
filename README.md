@@ -501,3 +501,8 @@ The UIKit mode has been widely adopted in Tencent Video iOS, and there have been
 
 ## License
 ovCompose-sample is released under the Apache 2.0 License. For details, see: [License](License.txt)
+
+## Stay Connected
+Scan the QR codes below to follow our latest updates or contact us for inquiries.
+
+<img alt="ovCompose support" src="img/support.png" />
