@@ -63,7 +63,24 @@ import com.tencent.compose.sample.backhandler.BackHandler
 import com.tencent.compose.sample.data.DisplayItem
 import com.tencent.compose.sample.data.DisplaySection
 import com.tencent.compose.sample.rememberLocalImage
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+
+
+@Serializable
+class Test1 {
+    var a: String = ""
+}
+
+val encodeJsonFormat = Json { encodeDefaults = true}
+inline fun <reified T> gsonToString(obj: T): String {
+    obj?.let { t ->
+        return encodeJsonFormat.encodeToString(t)
+    }
+    return ""
+}
 
 private fun appBarTitle(openedExample: DisplayItem?, skiaRender: Boolean = true): String {
     val title =
@@ -73,6 +90,10 @@ private fun appBarTitle(openedExample: DisplayItem?, skiaRender: Boolean = true)
         if (skiaRender) "${openedExample?.title} - Skia" else "${openedExample?.title} - UIKit"
 
     return if (openedExample != null) childTitle else title
+}
+
+fun testJson(): String {
+    return "${Test1().apply { a = "testac" }.let { gsonToString(it) }}"
 }
 
 @Composable
@@ -94,7 +115,7 @@ internal fun MainPage(skiaRender: Boolean = true) {
                 )
             },
             title = {
-                val title = appBarTitle(openedExample, skiaRender)
+                val title = testJson()
                 Text(title)
             }
         )

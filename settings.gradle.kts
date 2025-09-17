@@ -36,6 +36,15 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        maven {
+            isAllowInsecureProtocol = true
+            name = "Nenus"
+            setUrl("http://maven.cloud.cicoe.net/repository/kmp/")
+            credentials {
+                username = "kmp2"
+                password = "notekmp1504"
+            }
+        }
         maven("https://mirrors.tencent.com/nexus/repository/maven-tencent")
         maven("https://mirrors.tencent.com/nexus/repository/maven-public")
         google {
