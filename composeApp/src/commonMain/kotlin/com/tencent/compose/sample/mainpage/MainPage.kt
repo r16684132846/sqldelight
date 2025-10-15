@@ -59,6 +59,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tencent.compose.sample.XmlUtilTest
 import com.tencent.compose.sample.backhandler.BackHandler
 import com.tencent.compose.sample.data.DisplayItem
 import com.tencent.compose.sample.data.DisplaySection
@@ -95,6 +96,21 @@ private fun appBarTitle(openedExample: DisplayItem?, skiaRender: Boolean = true)
 fun testJson(): String {
     return "${Test1().apply { a = "testac" }.let { gsonToString(it) }}"
 }
+fun testXmlUtil(): String {
+    return try {
+        val xmlTest = XmlUtilTest()
+        val serializedPerson = xmlTest.testXmlSerialization()
+        val deserializedPerson = xmlTest.testXmlDeserialization(serializedPerson)
+        if (deserializedPerson != null) {
+            "XML 序列化测试成功: $serializedPerson, 反序列化结果: ${deserializedPerson.name}, ${deserializedPerson.age}"
+        } else {
+            "XML 测试失败: 无法反序列化数据"
+        }
+    } catch (e: Exception) {
+        "XML 测试失败: ${e.message}"
+    }
+}
+
 
 @Composable
 internal fun MainPage(skiaRender: Boolean = true) {
@@ -115,7 +131,8 @@ internal fun MainPage(skiaRender: Boolean = true) {
                 )
             },
             title = {
-                val title = testJson()
+                val title = testXmlUtil()
+//                val title = testJson()
                 Text(title)
             }
         )

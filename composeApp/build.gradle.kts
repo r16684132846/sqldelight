@@ -88,6 +88,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.atomicFu)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.xmlutil.core)
+            implementation(libs.xmlutil.serialization)
         }
 
         val ohosArm64Main by getting {
@@ -126,6 +128,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.core)
     debugImplementation(libs.compose.ui.tooling)
 }
 

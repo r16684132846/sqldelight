@@ -20,6 +20,18 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
+        maven("http://mirrors.itocm.com:8081/artifactory/libs-release-local/") {
+            isAllowInsecureProtocol = true
+        }
+        maven {
+            isAllowInsecureProtocol = true
+            name = "Nenus"
+            setUrl("http://maven.cloud.cicoe.net/repository/kmp/")
+            credentials {
+                username = "kmp2"
+                password = "notekmp1504"
+            }
+        }
         maven("https://mirrors.tencent.com/nexus/repository/maven-tencent")
         maven("https://mirrors.tencent.com/nexus/repository/maven-public")
         google {
@@ -36,6 +48,9 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        maven("http://mirrors.itocm.com:8081/artifactory/libs-release-local/") {
+            isAllowInsecureProtocol = true
+        }
         maven {
             isAllowInsecureProtocol = true
             name = "Nenus"

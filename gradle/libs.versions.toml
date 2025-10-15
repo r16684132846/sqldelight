@@ -14,11 +14,14 @@ androidx-test-junit = "1.2.1"
 compose = "1.6.3"
 compose-multiplatform = "1.6.1-KBA-007"
 junit = "4.13.2"
-kotlin = "2.0.21-KBA-005"
+kotlin = "2.0.21-KBA-009"
 kotlinx-coroutines = "1.8.0-KBA-001"
 atomicFu = "0.23.2-KBA-001"
 kotlinxSerializationVersion = "1.7.3-OHOS-001"
 kotlinxSerializationJsonPlug = "2.2.0"
+xmlutil = "0.90.3-OHOS-001"
+core = "1.15.0"
+
 
 
 [libraries]
@@ -47,6 +50,11 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationVersion" }
+
+xmlutil-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "xmlutil" }
+xmlutil-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlutil" }
+
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 
 
 [plugins]
