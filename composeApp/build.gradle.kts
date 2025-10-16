@@ -95,6 +95,8 @@ kotlin {
         val ohosArm64Main by getting {
             dependencies {
                 api(libs.compose.multiplatform.export)
+                implementation(libs.xmlutil.core)
+                implementation(libs.xmlutil.serialization)
             }
         }
     }

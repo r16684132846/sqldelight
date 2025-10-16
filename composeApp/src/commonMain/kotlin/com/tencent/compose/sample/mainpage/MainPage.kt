@@ -132,6 +132,7 @@ internal fun MainPage(skiaRender: Boolean = true) {
             },
             title = {
                 val title = testXmlUtil()
+//                val title = testCoroutines()
 //                val title = testJson()
                 Text(title)
             }

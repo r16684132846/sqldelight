@@ -19,12 +19,16 @@ kotlinx-coroutines = "1.8.0-OHOS-002"
 atomicFu = "0.23.2-OHOS-008"
 kotlinxSerializationVersion = "1.7.3-OHOS-001"
 kotlinxSerializationJsonPlug = "2.2.0"
+xmlutil = "0.90.3-OHOS-001"
+androidx-core = "1.15.0"
+
 
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
@@ -47,6 +51,8 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationVersion" }
+xmlutil-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "xmlutil" }
+xmlutil-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlutil" }
 
 
 [plugins]
