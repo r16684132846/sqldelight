@@ -16,7 +16,12 @@
  */
 
 import localUnitTest from './LocalUnit.test';
+import xmlUtilTest from './XmlUtilTest'; // 导入xmlUtilTest
+import coroutinesTest from './CoroutinesTest'; // 添加这一行用于导入coroutinesTest
+
 
 export default function testsuite() {
   localUnitTest();
+  coroutinesTest(); // 执行coroutinesTest
+  xmlUtilTest(); // 执行xmlUtilTest
 }
