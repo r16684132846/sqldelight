@@ -96,6 +96,17 @@ fun testJson(): String {
     return "${Test1().apply { a = "testac" }.let { gsonToString(it) }}"
 }
 
+// 添加 coroutines 测试函数
+fun testCoroutines(): String {
+    return try {
+        // 尝试使用协程相关的类来检查是否可用
+        val result = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob())
+        "Coroutines OK"
+    } catch (e: Throwable) {
+        "Coroutines Error: ${e::class.simpleName}"
+    }
+}
+
 @Composable
 internal fun MainPage(skiaRender: Boolean = true) {
     val displayItems by remember { mutableStateOf(displaySections()) }
@@ -115,7 +126,8 @@ internal fun MainPage(skiaRender: Boolean = true) {
                 )
             },
             title = {
-                val title = testJson()
+                val title = testCoroutines()
+//                val title = testJson()
                 Text(title)
             }
         )
