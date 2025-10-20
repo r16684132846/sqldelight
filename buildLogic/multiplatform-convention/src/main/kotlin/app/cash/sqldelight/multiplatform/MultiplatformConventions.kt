@@ -38,13 +38,13 @@ class MultiplatformConventions : Plugin<Project> {
 
       // tier 2
       linuxArm64()
-      watchosSimulatorArm64()
-      watchosX64()
-      watchosArm32()
-      watchosArm64()
-      tvosSimulatorArm64()
-      tvosX64()
-      tvosArm64()
+//      watchosSimulatorArm64()
+//      watchosX64()
+//      watchosArm32()
+//      watchosArm64()
+//      tvosSimulatorArm64()
+//      tvosX64()
+//      tvosArm64()
       iosArm64()
       ohosArm64 {
         binaries {
@@ -59,7 +59,7 @@ class MultiplatformConventions : Plugin<Project> {
       androidNativeX86()
       androidNativeX64()
       mingwX64()
-      watchosDeviceArm64()
+//      watchosDeviceArm64()
 
       project.tasks.named("linuxX64Test") { it.enabled = HostManager.hostIsLinux }
       project.tasks.named("linkDebugTestLinuxX64") { it.enabled = HostManager.hostIsLinux }

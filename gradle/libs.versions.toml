@@ -1,7 +1,7 @@
 [versions]
-kotlin = "2.0.21-KBA-001"
+kotlin = "2.0.21-KBA-006"
 dokka = "1.9.20"
-kotlinCoroutines = "1.8.0-KBA-001"
+kotlinCoroutines = "1.8.0-KBA-002"
 idea = "231.9392.1" # Hedgehog | 2023.1.1 Patch 2 (see https://plugins.jetbrains.com/docs/intellij/android-studio-releases-list.html)
 androidxSqlite = "2.4.0"
 schemaCrawler = "16.19.2"
@@ -15,9 +15,9 @@ compileSdk = "34"
 minSdk = "21"
 sqlPsi = "0.4.9"
 testContainers = "1.19.7"
-turbine = "1.1.0-OHOS-001"
-testhelp = "0.6.12-OHOS-001"
-stately = "2.0.7-OHOS-001"
+turbine = "1.1.0-OHOS-003"
+testhelp = "0.6.12-OHOS-002"
+stately = "2.0.7-OHOS-003"
 ksp = "2.0.20-1.0.25"
 
 [libraries]

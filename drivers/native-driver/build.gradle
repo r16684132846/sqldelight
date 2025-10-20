@@ -18,13 +18,13 @@ kotlin {
 
   // tier 2
   linuxArm64()
-  watchosSimulatorArm64()
-  watchosX64()
-  watchosArm32()
-  watchosArm64()
-  tvosSimulatorArm64()
-  tvosX64()
-  tvosArm64()
+//  watchosSimulatorArm64()
+//  watchosX64()
+//  watchosArm32()
+//  watchosArm64()
+//  tvosSimulatorArm64()
+//  tvosX64()
+//  tvosArm64()
   iosArm64()
   ohosArm64()
 
@@ -35,7 +35,7 @@ kotlin {
   // androidNativeX86()
   // androidNativeX64()
   mingwX64()
-  watchosDeviceArm64()
+//  watchosDeviceArm64()
 
   targetHierarchy.default { target ->
     target.group("native") {
@@ -70,7 +70,8 @@ kotlin {
     appleMain.dependsOn(nativeLinuxLikeMain)
   }
 
-  configure([targets.iosX64, targets.iosArm64, targets.tvosX64, targets.tvosArm64, targets.watchosX64, targets.watchosArm32, targets.watchosArm64, targets.macosX64, targets.macosArm64, targets.iosSimulatorArm64, targets.watchosSimulatorArm64, targets.tvosSimulatorArm64]) {
+//  configure([targets.iosX64, targets.iosArm64, targets.tvosX64, targets.tvosArm64, targets.watchosX64, targets.watchosArm32, targets.watchosArm64, targets.macosX64, targets.macosArm64, targets.iosSimulatorArm64, targets.watchosSimulatorArm64, targets.tvosSimulatorArm64]) {
+  configure([targets.iosX64, targets.iosArm64, targets.macosX64, targets.macosArm64, targets.iosSimulatorArm64]) {
     binaries.configureEach {
       // we only need to link sqlite for the test binaries
       if (outputKind == NativeOutputKind.TEST) {

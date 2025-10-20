@@ -1,9 +1,22 @@
 publishing {
     repositories {
-        maven {
-            name = "installLocally"
-            url = "${rootProject.buildDir}/localMaven"
+      maven {
+        allowInsecureProtocol = true
+        name = "Nenus"
+        setUrl("http://maven.cloud.cicoe.net/repository/kmp/")
+        credentials {
+          username = "kmp2"
+          password = "notekmp1504"
         }
+      }
+      maven {
+        name = "local"
+        url = mavenLocal().url
+      }
+//        maven {
+//            name = "installLocally"
+//            url = "${rootProject.buildDir}/localMaven"
+//        }
         /**
          * Want to push to an internal repository for testing?
          * Set the following properties in ~/.gradle/gradle.properties.
@@ -12,11 +25,11 @@ publishing {
          * internalUsername=YOUR_USERNAME
          * internalPassword=YOUR_PASSWORD
          */
-        maven {
-          name = "internal"
-          url = providers.gradleProperty("internalUrl")
-          credentials(PasswordCredentials)
-        }
+//        maven {
+//          name = "internal"
+//          url = providers.gradleProperty("internalUrl")
+//          credentials(PasswordCredentials)
+//        }
     }
 }
 
