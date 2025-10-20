@@ -1,0 +1,2 @@
+Sample.sq: (1, 0): Duplicate SQL identifier
+Sample.sq: (4, 0): Duplicate SQL identifier

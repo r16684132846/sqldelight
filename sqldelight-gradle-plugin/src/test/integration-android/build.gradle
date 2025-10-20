@@ -1,0 +1,50 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
+plugins {
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.sqldelight)
+  alias(libs.plugins.kotlin.android)
+}
+
+dependencies {
+  implementation libs.androidx.sqlite
+  implementation libs.androidx.sqliteFramework
+
+  implementation "app.cash.sqldelight:android-driver:${app.cash.sqldelight.VersionKt.VERSION}"
+
+  androidTestImplementation libs.androidx.test.runner
+  androidTestImplementation libs.truth
+}
+
+sqldelight {
+  databases {
+    QueryWrapper {
+
+    }
+  }
+}
+
+android {
+  namespace "app.cash.sqldelight.integration"
+
+  compileSdk libs.versions.compileSdk.get() as int
+
+  defaultConfig {
+    minSdk libs.versions.minSdk.get() as int
+
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+  }
+
+  lint {
+    textOutput file("$reportsDir/lint-results.txt")
+    textReport true
+  }
+
+  packagingOptions {
+    exclude 'LICENSE.txt'
+  }
+}
+
+tasks.withType(KotlinCompilationTask.class).configureEach {
+  compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+}

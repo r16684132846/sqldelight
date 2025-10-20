@@ -1,0 +1,19 @@
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+  databases {
+    MyDatabase {
+        packageName = "app.cash.sqldelight.hsql.integration"
+        dialect("app.cash.sqldelight:hsql-dialect:${app.cash.sqldelight.VersionKt.VERSION}")
+    }
+  }
+}
+
+dependencies {
+    implementation "org.hsqldb:hsqldb:2.7.2"
+    implementation "app.cash.sqldelight:jdbc-driver:${app.cash.sqldelight.VersionKt.VERSION}"
+    implementation libs.truth
+}

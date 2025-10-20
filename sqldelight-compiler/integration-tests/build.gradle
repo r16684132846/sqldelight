@@ -1,0 +1,14 @@
+plugins {
+  alias(libs.plugins.kotlin.jvm)
+  id("app.cash.sqldelight.toolchain.compiler")
+}
+
+dependencies {
+  testImplementation projects.runtime
+  testImplementation projects.drivers.sqliteDriver
+  testImplementation projects.testUtil
+
+  testImplementation libs.sqlPsi
+  testImplementation libs.truth
+  testImplementation libs.junit
+}

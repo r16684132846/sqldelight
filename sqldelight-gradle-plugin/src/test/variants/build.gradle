@@ -1,0 +1,52 @@
+plugins {
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.sqldelight)
+  alias(libs.plugins.kotlin.android)
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'app.cash.sqldelight'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+android {
+  namespace "com.example.sqldelight"
+
+  compileSdk libs.versions.compileSdk.get() as int
+
+  defaultConfig {
+    minSdk libs.versions.minSdk.get() as int
+  }
+
+  lint {
+    textReport true
+  }
+
+  buildTypes {
+    release {
+
+    }
+
+    sqldelight {
+
+    }
+  }
+
+  flavorDimensions "api", "mode"
+
+  productFlavors {
+    demo {
+      applicationIdSuffix ".demo"
+      dimension "mode"
+    }
+    full {
+      applicationIdSuffix ".full"
+      dimension "mode"
+    }
+    minApi21 {
+      dimension "api"
+    }
+    minApi23 {
+      dimension "api"
+    }
+  }
+}

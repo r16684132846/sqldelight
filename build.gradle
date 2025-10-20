@@ -1,0 +1,90 @@
+buildscript {
+  dependencies {
+    classpath("com.squareup.okhttp3:okhttp") {
+      version {
+        strictly '4.4.1'
+      }
+    }
+  }
+}
+
+plugins {
+  alias(libs.plugins.grammarKitComposer) apply false
+  alias(libs.plugins.kotlin.multiplatform) apply false
+  alias(libs.plugins.kotlin.jvm) apply false
+  alias(libs.plugins.kotlin.android) apply false
+  alias(libs.plugins.ksp) apply false
+  alias(libs.plugins.android.application) apply false
+  alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.publish) apply false
+  alias(libs.plugins.dokka)
+  alias(libs.plugins.spotless)
+}
+
+spotless {
+  kotlin {
+    target "**/*.kt"
+    targetExclude "**/gen/**/*.*", "**/generated/**/*.*", "sqldelight-compiler/integration-tests/src/test/kotlin/com/example/**/*.*", "sqldelight-compiler/src/test/migration-interface-fixtures/**/*.*", "sqldelight-gradle-plugin/src/test/build-logic-tests/build/**/*.*"
+    ktlint(libs.versions.ktlint.get()).editorConfigOverride([
+      "ktlint_standard_discouraged-comment-location": "disabled",
+      "ktlint_standard_package-name": "disabled",
+    ])
+  }
+}
+
+allprojects {
+  repositories {
+    mavenCentral()
+    google()
+    maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
+    maven { url "https://cache-redirector.jetbrains.com/intellij-dependencies" }
+    // Repo for the backported Android IntelliJ Plugin by Jetbrains used in Ultimate
+    maven { url "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-ide-plugin-dependencies/" }
+  }
+
+  tasks.withType(Test).configureEach {
+    testLogging {
+      events = ["failed", "skipped", "passed"]
+      exceptionFormat "full"
+    }
+  }
+
+  // Workaround for yarn concurrency issue - https://youtrack.jetbrains.com/issue/KT-43320
+  tasks.withType(org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask).configureEach {
+    args.addAll(["--mutex", "file:${file("build/.yarn-mutex")}".toString()])
+  }
+
+  // https://youtrack.jetbrains.com/issue/KT-46466
+  tasks.withType(org.gradle.api.publish.maven.tasks.AbstractPublishToMaven).configureEach {
+    dependsOn(tasks.withType(Sign))
+  }
+
+  configurations.configureEach {
+    exclude group: 'com.jetbrains.rd'
+    exclude group: 'com.github.jetbrains', module: 'jetCheck'
+    exclude group: "com.jetbrains.intellij.platform", module: "wsl-impl"
+    exclude group: 'org.roaringbitmap'
+    exclude group: "com.jetbrains.infra"
+    exclude group: "org.jetbrains.teamcity"
+    exclude group: "org.roaringbitmap"
+    exclude group: "ai.grazie.spell"
+    exclude group: "ai.grazie.model"
+    exclude group: "ai.grazie.utils"
+    exclude group: "ai.grazie.nlp"
+  }
+
+  group = GROUP
+  version = VERSION_NAME
+}
+
+tasks.named("dokkaHtmlMultiModule") {
+  outputDirectory = file("$rootDir/docs/2.x")
+
+  moduleName.set("SQLDelight")
+  pluginsMapConfiguration.set(["org.jetbrains.dokka.base.DokkaBase": """
+    {
+      "footerMessage": "Copyright &copy; 2022 Square, Inc.",
+      "customStyleSheets": ["${file("docs/css/logo-styles.css")}"]
+    }
+  """])
+}

@@ -1,0 +1,52 @@
+plugins {
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.android)
+}
+
+kotlin.jvmToolchain {
+  languageVersion.set(JavaLanguageVersion.of(8))
+  vendor.set(JvmVendorSpec.AZUL)
+}
+
+android {
+  compileSdk libs.versions.compileSdk.get() as int
+  namespace = "com.example.sqldelight.hockey"
+
+  lint {
+    textOutput file("$reportsDir/lint-results.txt")
+  }
+
+  defaultConfig {
+    minSdk 21
+    targetSdk libs.versions.compileSdk.get() as int
+
+    applicationId 'com.example.sqldelight.hockey'
+
+    versionCode 1
+    versionName '1.0'
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file('debug.keystore')
+      storePassword 'android'
+      keyAlias 'android'
+      keyPassword 'android'
+    }
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix '.development'
+      signingConfig signingConfigs.debug
+    }
+  }
+}
+
+dependencies {
+  implementation projects.common
+
+  implementation libs.androidx.recyclerView
+
+  implementation "app.cash.sqldelight:android-driver"
+}

@@ -1,0 +1,8 @@
+CREATE TABLE example2 (
+  date TEXT,
+  time TEXT,
+  dateTime TEXT
+);
+
+someSelect:
+SELECT date, time FROM example2;

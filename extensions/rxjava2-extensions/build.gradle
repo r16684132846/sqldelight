@@ -1,0 +1,20 @@
+plugins {
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.publish)
+  alias(libs.plugins.dokka)
+  id("app.cash.sqldelight.toolchain.runtime")
+  alias(libs.plugins.binaryCompatibilityValidator)
+}
+
+archivesBaseName = 'sqldelight-rxjava2-extensions'
+
+dependencies {
+  implementation projects.runtime
+  implementation libs.rxJava2
+
+  testImplementation projects.drivers.sqliteDriver
+  testImplementation libs.junit
+  testImplementation libs.truth
+}
+
+apply from: "$rootDir/gradle/gradle-mvn-push.gradle"

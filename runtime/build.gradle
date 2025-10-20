@@ -1,0 +1,35 @@
+plugins {
+  alias(libs.plugins.publish)
+  alias(libs.plugins.dokka)
+  alias(libs.plugins.binaryCompatibilityValidator)
+  id("app.cash.sqldelight.multiplatform")
+  id("app.cash.sqldelight.toolchain.runtime")
+}
+
+// https://youtrack.jetbrains.com/issue/KTIJ-14471
+sourceSets {
+  main
+}
+
+apiValidation {
+  ignoredPackages += ["app.cash.sqldelight.internal"]
+}
+
+kotlin {
+  sourceSets {
+    commonMain {
+    }
+    commonTest {
+      dependencies {
+        implementation libs.kotlin.test
+      }
+    }
+    jvmTest {
+      dependencies {
+        implementation libs.kotlin.test.junit
+      }
+    }
+  }
+}
+
+apply from: "$rootDir/gradle/gradle-mvn-push.gradle"

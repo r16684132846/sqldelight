@@ -1,0 +1,45 @@
+plugins {
+  alias(libs.plugins.kotlin.multiplatform)
+  alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+  databases {
+    QueryWrapper {
+      packageName = "app.cash.sqldelight.integration"
+    }
+  }
+}
+
+kotlin {
+  targets {
+    def buildForDevice = project.findProperty("device")?.toBoolean() ?: false
+    def iosPreset = (buildForDevice) ? presets.iosArm64 : presets.iosX64
+    targetFromPreset(iosPreset, 'ios') {
+      binaries { framework() }
+    }
+  }
+
+  sourceSets {
+    commonTest {
+      dependencies {
+        implementation libs.kotlin.test
+        implementation libs.stately.concurrency
+        implementation "app.cash.sqldelight:runtime:${app.cash.sqldelight.VersionKt.VERSION}"
+      }
+    }
+    iosMain {
+      dependencies {
+        implementation "app.cash.sqldelight:native-driver:${app.cash.sqldelight.VersionKt.VERSION}"
+      }
+    }
+  }
+}
+
+// https://youtrack.jetbrains.com/issue/KT-55751
+configurations {
+  def myAttribute = Attribute.of("dummy.attribute", String)
+
+  debugFrameworkIos { attributes.attribute(myAttribute, "dummy-value") }
+  releaseFrameworkIos { attributes.attribute(myAttribute, "dummy-value") }
+}

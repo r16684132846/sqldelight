@@ -1,0 +1,63 @@
+import app.cash.sqldelight.toolchain.PluginVersion
+
+plugins {
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.grammarKitComposer)
+  alias(libs.plugins.publish)
+  alias(libs.plugins.dokka)
+  id("app.cash.sqldelight.toolchain.compiler")
+}
+
+tasks.named('test') {
+  testLogging {
+    events "passed", "skipped", "failed"
+    exceptionFormat "full"
+    showExceptions true
+    showStackTraces true
+    showCauses true
+  }
+}
+
+grammarKit {
+  intellijRelease.set(libs.versions.idea)
+}
+
+dependencies {
+  api projects.sqldelightCompiler.dialect
+
+  implementation libs.jgrapht
+
+  compileOnly libs.sqliteJdbc
+  compileOnly(projects.sqldelightCompiler.environment) {
+    targetConfiguration = "shadow"
+  }
+
+  testImplementation libs.burst
+  testImplementation libs.sqliteJdbc
+  testImplementation(projects.sqldelightCompiler.environment) {
+    targetConfiguration = "shadow"
+  }
+
+  testImplementation libs.kotlin.test.junit
+  testImplementation libs.truth
+  testImplementation projects.sqldelightGradlePlugin
+  testImplementation projects.testUtil
+  testImplementation projects.dialects.hsql
+  testImplementation projects.dialects.mysql
+  testImplementation projects.dialects.postgresql
+  testImplementation projects.dialects.sqlite318
+  testImplementation projects.dialects.sqlite324
+  testImplementation projects.dialects.sqlite325
+  testImplementation projects.dialects.sqlite330
+  testImplementation projects.dialects.sqlite333
+  testImplementation projects.dialects.sqlite335
+  testImplementation projects.dialects.sqlite338
+}
+
+TaskProvider<PluginVersion> pluginVersion = tasks.register('pluginVersion', PluginVersion)
+
+sourceSets.main {
+  kotlin.srcDir(pluginVersion)
+}
+
+apply from: "$rootDir/gradle/gradle-mvn-push.gradle"

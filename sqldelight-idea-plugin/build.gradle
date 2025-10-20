@@ -1,0 +1,104 @@
+import org.jetbrains.intellij.tasks.RunPluginVerifierTask.FailureLevel
+import app.cash.sqldelight.toolchain.BugsnagKey
+
+plugins {
+  alias(libs.plugins.intellij)
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.changelog)
+  alias(libs.plugins.ksp)
+  id("app.cash.sqldelight.toolchain.compiler")
+}
+
+intellij {
+  updateSinceUntilBuild = false
+
+  // Comment version and uncomment localPath to test a local IDE build.
+  version = "IC-${libs.versions.idea.get()}"
+//  localPath = "/Applications/Android Studio.app"
+
+  pluginName = 'SQLDelight'
+  plugins = [
+      "org.jetbrains.kotlin",
+      "com.intellij.gradle",
+      "com.intellij.java",
+      "org.jetbrains.android"
+  ]
+  if (!project.version.endsWith("SNAPSHOT")) {
+    tasks.named('patchPluginXml') {
+      changeNotes = (provider { changelog.get(project.version).toHTML() })
+    }
+  } else {
+    tasks.named('patchPluginXml') {
+      version = "$VERSION_NAME-${System.currentTimeMillis()}"
+    }
+  }
+}
+
+tasks.named('runIde') {
+  maxHeapSize = "4g"
+}
+
+tasks.named('runPluginVerifier') {
+  // See: the verify_intellij job in .github/workflows/PR.yml
+  def version = providers.systemProperty("ideaVersion").getOrElse(null)
+  if (version != null) {
+    ideVersions = [version]
+  }
+
+  def customFailureLevel = FailureLevel.ALL
+  customFailureLevel.remove(FailureLevel.DEPRECATED_API_USAGES)
+  customFailureLevel.remove(FailureLevel.EXPERIMENTAL_API_USAGES)
+  customFailureLevel.remove(FailureLevel.INTERNAL_API_USAGES)
+  customFailureLevel.remove(FailureLevel.NOT_DYNAMIC)
+  customFailureLevel.remove(FailureLevel.SCHEDULED_FOR_REMOVAL_API_USAGES)
+
+  failureLevel = customFailureLevel
+}
+
+changelog {
+  path = "$rootDir/CHANGELOG.md"
+}
+
+def isReleaseBuild() {
+  return VERSION_NAME.contains("SNAPSHOT") == false
+}
+
+def getPluginToken() {
+  return hasProperty('intellijPublishToken') ? intellijPublishToken : ""
+}
+
+tasks.named('publishPlugin') {
+  token = getPluginToken()
+  channels = [isReleaseBuild() ? 'Stable' : 'EAP']
+}
+
+repositories {
+  maven { url = uri("https://repo.gradle.org/gradle/libs-releases") }
+}
+
+dependencies {
+  ksp libs.moshiCodegen
+
+  implementation projects.sqldelightCompiler
+
+  implementation libs.sqliteJdbc
+  implementation libs.bugsnag
+  implementation libs.picnic
+  implementation libs.moshi
+
+  testImplementation libs.truth
+  testImplementation libs.intellij.android
+  testImplementation projects.dialects.sqlite318
+}
+
+configurations.named("runtimeClasspath") {
+  exclude group: "org.slf4j"
+  exclude group: "org.jetbrains.kotlin"
+}
+
+def bugsnagKey = tasks.register('bugsnagKey', BugsnagKey)
+sourceSets.main {
+  kotlin.srcDir(bugsnagKey)
+}
+
+tasks.named('buildSearchableOptions') { enabled = false }
