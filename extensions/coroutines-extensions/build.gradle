@@ -16,6 +16,7 @@ kotlin {
       it.withApple()
       it.withLinux()
       it.withMingw()
+      it.withOhos()
       // https://github.com/touchlab/SQLiter/issues/117
       // it.withAndroidNative()
     }
@@ -67,6 +68,17 @@ kotlin {
       // we only need to link sqlite for the test binaries
       if (outputKind == NativeOutputKind.TEST) {
         linkerOpts += ["-lsqlite3"]
+      }
+    }
+  }
+
+  configure([targets.ohosArm64]) {
+    binaries {
+      configureEach {
+        if (outputKind == NativeOutputKind.TEST) {
+          var libDir = "$rootDir/libs/ohosArm64"
+          linkerOpts += ["-L$libDir".toString(), "-lsqlite3", "-lz", "-lunwind", "-lhilog_ndk.z"]
+        }
       }
     }
   }

@@ -1,14 +1,22 @@
 pluginManagement {
   repositories {
+    mavenLocal()
     mavenCentral()
     gradlePluginPortal()
+    maven {
+        url = "https://mirrors.tencent.com/nexus/repository/maven-public"
+    }
   }
 }
 
 dependencyResolutionManagement {
   repositories {
+    mavenLocal()
     mavenCentral()
     google()
+    maven {
+        url = "https://mirrors.tencent.com/nexus/repository/maven-public"
+    }
   }
 
   versionCatalogs {

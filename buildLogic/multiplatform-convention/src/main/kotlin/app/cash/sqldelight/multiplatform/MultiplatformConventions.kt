@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.konan.target.HostManager
+import org.jetbrains.kotlin.konan.target.KonanTarget
 
 class MultiplatformConventions : Plugin<Project> {
   override fun apply(project: Project) {
@@ -45,6 +46,12 @@ class MultiplatformConventions : Plugin<Project> {
       tvosX64()
       tvosArm64()
       iosArm64()
+      ohosArm64 {
+        binaries {
+          getTest("Debug").linkerOpts("-lhilog_ndk.z")
+          getTest("Debug").linkerOpts("-lunwind")
+        }
+      }
 
       // tier 3
       androidNativeArm32()
@@ -54,13 +61,18 @@ class MultiplatformConventions : Plugin<Project> {
       mingwX64()
       watchosDeviceArm64()
 
-      // linking fails for the linux test build if not built on a linux host
-      // ensure the tests and linking for them is only done on linux hosts
       project.tasks.named("linuxX64Test") { it.enabled = HostManager.hostIsLinux }
       project.tasks.named("linkDebugTestLinuxX64") { it.enabled = HostManager.hostIsLinux }
 
       project.tasks.named("mingwX64Test") { it.enabled = HostManager.hostIsMingw }
       project.tasks.named("linkDebugTestMingwX64") { it.enabled = HostManager.hostIsMingw }
+
+      project.tasks.matching { it.name == "ohosArm64Test" }.configureEach {
+        it.enabled = HostManager().isEnabled(KonanTarget.OHOS_ARM64)
+      }
+      project.tasks.matching { it.name == "linkDebugTestOhosArm64" }.configureEach {
+        it.enabled = HostManager().isEnabled(KonanTarget.OHOS_ARM64)
+      }
     }
   }
 }

@@ -14,6 +14,7 @@ kotlin {
   iosX64()
   iosArm64()
   iosSimulatorArm64()
+  //ohosArm64()
   jvm()
   js {
     browser()
@@ -62,6 +63,15 @@ kotlin {
       }
     }
   }
+
+//  configure([targets.ohosArm64]) {
+//    binaries.configureEach {
+//      // we only need to link sqlite for the test binaries
+//      if (outputKind == NativeOutputKind.TEST) {
+//        linkerOpts += ["-lsqlite3"]
+//      }
+//    }
+//  }
 
   configure([targets.linuxX64]) {
     compilations.configureEach {

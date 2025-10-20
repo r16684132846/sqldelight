@@ -1,8 +1,15 @@
 pluginManagement {
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
         gradlePluginPortal()
+        maven {
+            url = "https://mirrors.tencent.com/nexus/repository/maven-public"
+        }
+        maven { url = "http://mirrors.itocm.com:8081/artifactory/libs-release-local/"
+          allowInsecureProtocol = true
+        }
     }
 
     includeBuild("buildLogic")

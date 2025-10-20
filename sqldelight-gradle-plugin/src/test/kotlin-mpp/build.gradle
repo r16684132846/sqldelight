@@ -29,6 +29,11 @@ kotlin {
       framework()
     }
   }
+  targetFromPreset(presets.ohosArm64, 'ohosArm64') {
+    binaries {
+      framework()
+    }
+  }
 }
 
 // https://youtrack.jetbrains.com/issue/KT-55751

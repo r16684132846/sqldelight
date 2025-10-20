@@ -34,12 +34,17 @@ spotless {
 
 allprojects {
   repositories {
+    mavenLocal()
     mavenCentral()
     google()
     maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
     maven { url "https://cache-redirector.jetbrains.com/intellij-dependencies" }
     // Repo for the backported Android IntelliJ Plugin by Jetbrains used in Ultimate
     maven { url "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-ide-plugin-dependencies/" }
+    maven { url = "https://mirrors.tencent.com/nexus/repository/maven-public" }
+    maven { url = "http://mirrors.itocm.com:8081/artifactory/libs-release-local/"
+      allowInsecureProtocol = true
+    }
   }
 
   tasks.withType(Test).configureEach {
