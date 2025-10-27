@@ -25,6 +25,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.cocoapods)
+    alias(libs.plugins.sqldelight)
     kotlin("plugin.serialization") version libs.versions.kotlinxSerializationJsonPlug
 }
 
@@ -77,6 +78,12 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.sqldelight.android.driver)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -90,6 +97,12 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.xmlutil.core)
             implementation(libs.xmlutil.serialization)
+            implementation(libs.sqldelight.coroutines.extensions)
+            implementation(libs.sqldelight.runtime)
+            implementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+            implementation("org.jetbrains.kotlin:kotlin-test-common:1.9.0")
+            implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:1.9.0")
+
             implementation(libs.ksoup.html)
             implementation(libs.ksoup.entities)
         }
@@ -101,7 +114,12 @@ kotlin {
                 implementation(libs.xmlutil.serialization)
                 implementation(libs.ksoup.html)
                 implementation(libs.ksoup.entities)
+//                implementation(libs.sqldelight.coroutines.extensions)
+                implementation(libs.sqldelight.native.driver)
             }
+        }
+        iosMain.dependencies {
+            implementation(libs.sqldelight.native.driver)
         }
     }
 }
@@ -135,6 +153,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core)
+    implementation(libs.core.ktx)
     debugImplementation(libs.compose.ui.tooling)
 }
 
@@ -148,6 +167,22 @@ arrayOf("debug", "release").forEach { type ->
         }
         from(project.file("build/bin/ohosArm64/${type}Shared/libkn.so")) {
             into("/entry/libs/arm64-v8a/")
+        }
+    }
+}
+
+tasks.whenTaskAdded {
+    if (name.contains("iosTest")) {
+        enabled = false
+    }
+}
+
+sqldelight {
+    databases {
+        create("MyDatabase") {
+            packageName = "com.tencent.compose.db"
+            dialect("app.cash.sqldelight:sqlite-3-25-dialect:${libs.versions.sqldelight.get()}")
+            schemaOutputDirectory = file("build/dbs")
         }
     }
 }

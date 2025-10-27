@@ -17,10 +17,19 @@
 
 package com.tencent.compose
 
+import android.content.Context
 import android.os.Build
-
+import com.tencent.compose.db.MyDatabase
 internal class AndroidPlatform : Platform {
     override val name: String = "Android ${Build.VERSION.SDK_INT}"
 }
 
 internal actual fun getPlatform(): Platform = AndroidPlatform()
+
+// 添加一个全局变量来保存应用上下文
+lateinit var applicationContext: Context
+    private set
+
+fun setApplicationContext(context: Context) {
+    applicationContext = context.applicationContext
+}

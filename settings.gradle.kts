@@ -55,8 +55,8 @@ dependencyResolutionManagement {
                 password = "notekmp1504"
             }
         }
-        maven("https://mirrors.tencent.com/nexus/repository/maven-tencent")
         maven("https://mirrors.tencent.com/nexus/repository/maven-public")
+        maven("https://mirrors.tencent.com/nexus/repository/maven-tencent")
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")
