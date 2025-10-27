@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS Person (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL
+);
+
+insertPerson:
+INSERT INTO Person(id, name, age)
+VALUES (?, ?, ?);
+
+selectAll:
+SELECT * FROM Person;
+
+selectById:
+SELECT * FROM Person WHERE id = ?;
+
+updatePerson:
+UPDATE Person SET name = ?, age = ? WHERE id = ?;
+
+deletePerson:
+DELETE FROM Person WHERE id = ?;
+
+deleteAll:
+DELETE FROM Person;

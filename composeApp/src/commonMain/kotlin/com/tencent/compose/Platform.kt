@@ -22,3 +22,5 @@ internal interface Platform {
 }
 
 internal expect fun getPlatform(): Platform
+// 添加这行expect函数声明
+//expect fun createDatabase(): MyDatabase
