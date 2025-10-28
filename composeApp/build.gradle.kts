@@ -90,6 +90,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.xmlutil.core)
             implementation(libs.xmlutil.serialization)
+            implementation(libs.ksoup.html)
+            implementation(libs.ksoup.entities)
         }
 
         val ohosArm64Main by getting {
@@ -97,6 +99,8 @@ kotlin {
                 api(libs.compose.multiplatform.export)
                 implementation(libs.xmlutil.core)
                 implementation(libs.xmlutil.serialization)
+                implementation(libs.ksoup.html)
+                implementation(libs.ksoup.entities)
             }
         }
     }

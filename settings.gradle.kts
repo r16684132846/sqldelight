@@ -20,9 +20,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
-//        maven("http://mirrors.itocm.com:8081/artifactory/libs-release-local/") {
-//            isAllowInsecureProtocol = true
-//        }
         maven {
             isAllowInsecureProtocol = true
             name = "Nenus"
@@ -43,14 +40,12 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
-//        maven("http://mirrors.itocm.com:8081/artifactory/libs-release-local/") {
-//            isAllowInsecureProtocol = true
-//        }
         maven {
             isAllowInsecureProtocol = true
             name = "Nenus"
@@ -70,6 +65,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        mavenLocal()
     }
 }
 

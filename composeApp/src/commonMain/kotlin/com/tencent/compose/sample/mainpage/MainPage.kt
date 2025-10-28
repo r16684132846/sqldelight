@@ -60,6 +60,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tencent.compose.sample.XmlUtilTest
+import com.tencent.compose.sample.KsoupTest
 import com.tencent.compose.sample.backhandler.BackHandler
 import com.tencent.compose.sample.data.DisplayItem
 import com.tencent.compose.sample.data.DisplaySection
@@ -112,6 +113,16 @@ fun testXmlUtil(): String {
 }
 
 
+fun testKsoup(): String {
+    return try {
+        val ksoupTest = KsoupTest()
+        ksoupTest.runAllTests()
+    } catch (e: Exception) {
+        "Ksoup 测试失败: ${e.message}"
+    }
+}
+
+
 @Composable
 internal fun MainPage(skiaRender: Boolean = true) {
     val displayItems by remember { mutableStateOf(displaySections()) }
@@ -131,7 +142,8 @@ internal fun MainPage(skiaRender: Boolean = true) {
                 )
             },
             title = {
-                val title = testXmlUtil()
+                val title = testKsoup()
+//                val title = testXmlUtil()
 //                val title = testCoroutines()
 //                val title = testJson()
                 Text(title)

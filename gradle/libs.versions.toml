@@ -21,6 +21,7 @@ kotlinxSerializationVersion = "1.7.3-OHOS-001"
 kotlinxSerializationJsonPlug = "2.2.0"
 xmlutil = "0.90.3-OHOS-001"
 androidx-core = "1.15.0"
+ksoup = "0.4.1-OHOS-001"
 
 
 
@@ -53,7 +54,8 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationVersion" }
 xmlutil-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "xmlutil" }
 xmlutil-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlutil" }
-
+ksoup-entities = { module = "com.mohamedrejeb.ksoup:ksoup-entities", version.ref = "ksoup" }
+ksoup-html = { module = "com.mohamedrejeb.ksoup:ksoup-html", version.ref = "ksoup" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
