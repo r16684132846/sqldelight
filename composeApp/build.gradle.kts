@@ -114,7 +114,7 @@ kotlin {
                 implementation(libs.xmlutil.serialization)
                 implementation(libs.ksoup.html)
                 implementation(libs.ksoup.entities)
-//                implementation(libs.sqldelight.coroutines.extensions)
+                implementation(libs.sqldelight.coroutines.extensions)
                 implementation(libs.sqldelight.native.driver)
             }
         }
