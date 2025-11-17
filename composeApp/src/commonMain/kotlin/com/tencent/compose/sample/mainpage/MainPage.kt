@@ -78,7 +78,7 @@ class Test1 {
     var a: String = ""
 }
 
-val encodeJsonFormat = Json { encodeDefaults = true}
+val encodeJsonFormat = Json { encodeDefaults = true }
 inline fun <reified T> gsonToString(obj: T): String {
     obj?.let { t ->
         return encodeJsonFormat.encodeToString(t)
@@ -99,6 +99,7 @@ private fun appBarTitle(openedExample: DisplayItem?, skiaRender: Boolean = true)
 fun testJson(): String {
     return "${Test1().apply { a = "testac" }.let { gsonToString(it) }}"
 }
+
 fun testXmlUtil(): String {
     return try {
         val xmlTest = XmlUtilTest()
@@ -114,7 +115,6 @@ fun testXmlUtil(): String {
     }
 }
 
-// 添加数据库测试函数
 fun testDatabase(): String {
     return try {
         // 创建数据库驱动和实例
@@ -185,9 +185,9 @@ internal fun MainPage(skiaRender: Boolean = true) {
                 )
             },
             title = {
-                val title = testKsoup()
+//                val title = testKsoup()
 //                val title = testXmlUtil()
-//                val title = testDatabase()
+                val title = testDatabase()
 //                val title = testXmlUtil()
 //                val title = testCoroutines()
 //                val title = testJson()

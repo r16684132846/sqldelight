@@ -57,6 +57,17 @@ fun PersonListScreen() {
             }) {
                 Text("清空所有")
             }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Button(onClick = {
+                coroutineScope.launch {
+                    val testRunner = SqlDelightTestRunner()
+                    testRunner.runAllTests()
+                }
+            }) {
+                Text("运行测试")
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))

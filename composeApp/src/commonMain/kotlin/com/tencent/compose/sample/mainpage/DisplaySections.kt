@@ -97,10 +97,10 @@ internal fun displaySections(): List<DisplaySection> {
                 DisplayItem("Falling Balls", Res.drawable.falling) { FallingBalls() },
                 DisplayItem("DropdownMenu", Res.drawable.menu) { DropdownMenu() },
                 DisplayItem("GradientLine", Res.drawable.gradient) { LinearGradientLine() },
-                DisplayItem("SQLDelight Database", Res.drawable.balls) { PersonListScreen() }
+                DisplayItem("SQLDelight Database", Res.drawable.balls) { PersonListScreen() },
             )
         )
     )
 }
 
-internal expect fun platformSections() : List<DisplayItem>
+internal expect fun platformSections(): List<DisplayItem>

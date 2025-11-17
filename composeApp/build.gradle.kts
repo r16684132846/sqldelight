@@ -70,6 +70,8 @@ kotlin {
         val resource by main.cinterops.creating {
             defFile(file("src/ohosArm64Main/cinterop/resource.def"))
             includeDirs(file("src/ohosArm64Main/cinterop/include"))
+            includeDirs(file("${projectDir}/src/ohosArm64Main/cinterop/include"))
+        }
         }
     }
 
@@ -116,6 +118,7 @@ kotlin {
                 implementation(libs.ksoup.entities)
                 implementation(libs.sqldelight.coroutines.extensions)
                 implementation(libs.sqldelight.native.driver)
+                implementation(libs.atomicFu)
             }
         }
         iosMain.dependencies {
