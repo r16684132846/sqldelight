@@ -63,6 +63,15 @@ static napi_value InitResourceManager(napi_env env, napi_callback_info info) {
     return result;
 }
 
+static napi_value NAPI_Global_MainArkUIViewController(napi_env env, napi_callback_info info) {
+    // TODO: implements the code;
+}
+static napi_value NAPI_Global_MainArkUIViewController1(napi_env env, napi_callback_info info) {
+    // TODO: implements the code;
+}
+static napi_value NAPI_Global_MainArkUIViewController2(napi_env env, napi_callback_info info) {
+    // TODO: implements the code;
+}
 EXTERN_C_START
 static napi_value Init(napi_env env, napi_value exports) {
     androidx_compose_ui_arkui_init(env, exports);
@@ -70,6 +79,12 @@ static napi_value Init(napi_env env, napi_value exports) {
         {"add", nullptr, Add, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"initResourceManager", nullptr, InitResourceManager, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"MainArkUIViewController", nullptr, MainArkUIViewController, nullptr, nullptr, nullptr, napi_default, nullptr},
+        {"MainArkUIViewController", nullptr, NAPI_Global_MainArkUIViewController, nullptr, nullptr, nullptr,
+         napi_default, nullptr},
+        {"MainArkUIViewController", nullptr, NAPI_Global_MainArkUIViewController1, nullptr, nullptr, nullptr,
+         napi_default, nullptr},
+        {"MainArkUIViewController", nullptr, NAPI_Global_MainArkUIViewController2, nullptr, nullptr, nullptr,
+         napi_default, nullptr },
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
     return exports;

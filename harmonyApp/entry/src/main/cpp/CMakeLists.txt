@@ -1,15 +1,14 @@
-# the minimum version of CMake.
 cmake_minimum_required(VERSION 3.5.0)
 project(harmonyApp)
 
 set(NATIVERENDER_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-if(DEFINED PACKAGE_FIND_FILE)
+if (DEFINED PACKAGE_FIND_FILE)
     include(${PACKAGE_FIND_FILE})
-endif()
+endif ()
 
 include_directories(${NATIVERENDER_ROOT_PATH}
-                    ${NATIVERENDER_ROOT_PATH}/include)
+        ${NATIVERENDER_ROOT_PATH}/include)
 
 find_package(skikobridge)
 
@@ -19,4 +18,13 @@ target_link_libraries(entry PUBLIC libdeviceinfo_ndk.z.so)
 target_link_libraries(entry PUBLIC librawfile.z.so)
 target_link_libraries(entry PUBLIC ${NATIVERENDER_ROOT_PATH}/../../../libs/arm64-v8a/libkn.so)
 target_link_libraries(entry PUBLIC skikobridge::skikobridge)
-target_link_libraries(entry PUBLIC ${EGL-lib} ${GLES-lib} ${hilog-lib} ${libace-lib} ${libnapi-lib} ${libuv-lib} libc++_shared.so)
+
+# 添加包含路径
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# 指定 SQLite 源码
+add_library(sqlite3 SHARED sqlite3.c)
+
+install(TARGETS sqlite3 LIBRARY DESTINATION lib)

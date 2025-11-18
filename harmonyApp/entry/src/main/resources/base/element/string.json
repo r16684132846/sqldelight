@@ -11,6 +11,14 @@
     {
       "name": "EntryAbility_label",
       "value": "ComposeSample"
+    },
+    {
+      "name": "microphone_permission_reason",
+      "value": "需要麦克风权限来录音"
+    },
+    {
+      "name": "camera_permission_reason",
+      "value": "需要拍照权限来录音"
     }
   ]
 }

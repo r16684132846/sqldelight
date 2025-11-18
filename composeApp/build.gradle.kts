@@ -63,15 +63,19 @@ kotlin {
         binaries.sharedLib {
             baseName = "kn"
             export(libs.compose.multiplatform.export)
+            // 添加链接器选项以使用本地sqlite3库
+            linkerOpts("-L${projectDir}/src/ohosArm64Main/cinterop/libs", "-lsqlite3")
         }
 
         val main by compilations.getting
 
         val resource by main.cinterops.creating {
             defFile(file("src/ohosArm64Main/cinterop/resource.def"))
-            includeDirs(file("src/ohosArm64Main/cinterop/include"))
             includeDirs(file("${projectDir}/src/ohosArm64Main/cinterop/include"))
         }
+        val sqlite3 by main.cinterops.creating {
+            defFile(file("src/ohosArm64Main/cinterop/sqlite3.def"))
+            includeDirs(file("${projectDir}/src/ohosArm64Main/cinterop/include"))
         }
     }
 

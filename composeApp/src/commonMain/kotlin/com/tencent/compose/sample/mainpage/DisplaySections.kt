@@ -97,7 +97,7 @@ internal fun displaySections(): List<DisplaySection> {
                 DisplayItem("Falling Balls", Res.drawable.falling) { FallingBalls() },
                 DisplayItem("DropdownMenu", Res.drawable.menu) { DropdownMenu() },
                 DisplayItem("GradientLine", Res.drawable.gradient) { LinearGradientLine() },
-                DisplayItem("SQLDelight Database", Res.drawable.balls) { PersonListScreen() },
+                DisplayItem("SqlDelight安卓测试", Res.drawable.balls) { PersonListScreen() },
             )
         )
     )

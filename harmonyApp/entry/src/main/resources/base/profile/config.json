@@ -1,0 +1,14 @@
+{
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "mainElement": "EntryAbility",
+    "mainPage": "pages/Index.ets",
+    "targetSdkVersion": "10",
+    "reqPermissions": [
+      "ohos.permission.DISTRIBUTED_DATASYNC",
+      "ohos.permission.READ_USER_DATA",
+      "ohos.permission.WRITE_USER_DATA"
+    ]
+  }
+}

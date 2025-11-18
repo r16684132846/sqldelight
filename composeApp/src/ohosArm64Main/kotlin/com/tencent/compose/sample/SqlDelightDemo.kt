@@ -46,16 +46,24 @@ internal fun SqlDelightDemo() {
     LaunchedEffect(Unit) {
         withContext(Dispatchers.Default) {
             try {
-                val db = MyDatabase(
-                    driver = createTestDriver()
-                )
+                println("开始初始化数据库...")
+                val driver = createTestDriver()
+                println("数据库驱动创建成功")
+                val db = MyDatabase(driver = driver)
                 database = db
+                println("数据库实例创建成功")
 
                 // 加载所有人员
+                println("开始加载人员数据...")
                 persons = db.personQueries.selectAll().executeAsList()
+                println("人员数据加载完成，共 ${persons.size} 条记录")
+
                 nextId = (persons.maxOfOrNull { it.id } ?: 0L) + 1
+                println("下一个ID设置为: $nextId")
+
             } catch (e: Exception) {
                 println("数据库初始化失败: ${e.message}")
+                e.printStackTrace() // 打印完整堆栈信息
             }
         }
     }
@@ -63,12 +71,14 @@ internal fun SqlDelightDemo() {
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Button(onClick = {
             database?.let { db ->
+                println("开始插入新人员: ID=$nextId, 姓名=Person $nextId")
                 // 插入新人员
                 db.personQueries.insertPerson(nextId, "Person $nextId", (18..40).random().toLong())
                 nextId++
 
                 // 重新加载列表
                 persons = db.personQueries.selectAll().executeAsList()
+                println("插入完成，当前总人数: ${persons.size}")
             }
         }) {
             Text("添加人员")
