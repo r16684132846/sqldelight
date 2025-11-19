@@ -19,6 +19,14 @@
     {
       "name": "camera_permission_reason",
       "value": "需要拍照权限来录音"
+    },
+    {
+      "name": "storage_permission_reason",
+      "value": "需要存储权限来录音"
+    },
+    {
+      "name": "location_permission_reason",
+      "value": "需要位置权限来录音"
     }
   ]
 }

@@ -2,7 +2,6 @@ package com.tencent.compose.sample
 
 import app.cash.sqldelight.db.SqlDriver
 import com.tencent.compose.db.MyDatabase
-import com.tencent.compose.db.Person
 import kotlinx.coroutines.runBlocking
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

@@ -12,7 +12,8 @@ include_directories(${NATIVERENDER_ROOT_PATH}
 
 find_package(skikobridge)
 
-add_library(entry SHARED napi_init.cpp)
+# 将 libkn.cpp 添加到源文件列表中
+add_library(entry SHARED napi_init.cpp libkn.cpp)
 target_link_libraries(entry PUBLIC libace_napi.z.so)
 target_link_libraries(entry PUBLIC libdeviceinfo_ndk.z.so)
 target_link_libraries(entry PUBLIC librawfile.z.so)

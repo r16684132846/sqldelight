@@ -14,10 +14,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun PersonListScreen() {
     // 初始化数据库
-    val database = remember {
-        val driver = createTestDriver()
-        MyDatabase(driver)
-    }
+    val driver = remember { createTestDriver() }
+    val database = remember { MyDatabase(driver) }
 
     val dbHelper = remember { DatabaseHelper(database.personQueries) }
     var persons by remember { mutableStateOf<List<Person>>(emptyList()) }
@@ -27,6 +25,7 @@ fun PersonListScreen() {
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             persons = dbHelper.getAllPersonsList()
+            println("获取已加载所有人员数据:persons-$persons")
         }
     }
 
