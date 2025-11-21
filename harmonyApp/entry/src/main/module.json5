@@ -54,7 +54,7 @@
         "reason": "$string:camera_permission_reason",
         "usedScene": {
           "abilities": [
-            "拍照权限"
+            "EntryAbility"
           ]
         }
       },
@@ -63,7 +63,7 @@
         "reason": "$string:microphone_permission_reason",
         "usedScene": {
           "abilities": [
-            "麦克风"
+            "EntryAbility"
           ]
         }
       },
@@ -72,16 +72,25 @@
         "reason": "$string:storage_permission_reason",
         "usedScene": {
           "abilities": [
-            "读取媒体文件"
+            "EntryAbility"
           ]
         }
       },
       {
         "name": "ohos.permission.WRITE_MEDIA",
-        "reason":"$string:location_permission_reason",
+        "reason": "$string:location_permission_reason",
         "usedScene": {
           "abilities": [
-            "写入媒体文件"
+            "EntryAbility"
+          ]
+        }
+      },
+      {
+        "name": "ohos.permission.DISTRIBUTED_DATASYNC",
+        "reason": "$string:distributed_data_sync_reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
           ]
         }
       }

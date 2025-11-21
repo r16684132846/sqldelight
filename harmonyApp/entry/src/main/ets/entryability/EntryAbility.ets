@@ -19,17 +19,58 @@ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.Ab
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { initResourceManager } from 'libentry.so';
-import { fileIo as fs } from '@kit.CoreFileKit';
-import { BusinessError } from '@kit.BasicServicesKit';
+import relationalStore from '@ohos.data.relationalStore';
+import type { Context } from '@kit.AbilityKit';
 
 const DOMAIN = 0x0000;
 
+// 添加全局变量来存储实例引用
+let instance: EntryAbility | null = null;
+
 export default class EntryAbility extends UIAbility {
+  private rdbStore: relationalStore.RdbStore | null = null;
+
+  // 添加静态方法供外部调用
+  static insertPerson(name: string, age: number, email: string,
+    callback: (err: Error | null, rowId?: number) => void): void {
+    if (instance) {
+      instance.insertPerson(name, age, email, callback);
+    } else {
+      callback(new Error('EntryAbility instance not available'));
+    }
+  }
+
+  static queryAllPersons(callback: (err: Error | null, resultSet?: relationalStore.ResultSet) => void): void {
+    if (instance) {
+      instance.queryAllPersons(callback);
+    } else {
+      callback(new Error('EntryAbility instance not available'));
+    }
+  }
+
+  static updatePerson(id: number, name: string, age: number, email: string,
+    callback: (err: Error | null, count?: number) => void): void {
+    if (instance) {
+      instance.updatePerson(id, name, age, email, callback);
+    } else {
+      callback(new Error('EntryAbility instance not available'));
+    }
+  }
+
+  static deletePerson(id: number, callback: (err: Error | null, count?: number) => void): void {
+    if (instance) {
+      instance.deletePerson(id, callback);
+    } else {
+      callback(new Error('EntryAbility instance not available'));
+    }
+  }
+
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+    // 保存实例引用
+    instance = this;
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     initResourceManager(this.context.resourceManager)
-    // 设置数据库路径供native层使用
-    this.setupDatabasePath();
+    this.initDatabase();
 
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
   }
@@ -66,74 +107,161 @@ export default class EntryAbility extends UIAbility {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onBackground');
   }
 
-
-  // 设置数据库路径并确保目录存在
-  private async setupDatabasePath(): Promise<void> {
-    try {
-      // 使用正确的沙箱路径
-      const dbDirectory = `${this.context.filesDir}/databases`;
-      hilog.info(DOMAIN, 'testTag', 'dbDirectory: %{public}s', dbDirectory);
-      const dbPath = `${dbDirectory}/my_database.db`;
-
-      hilog.info(DOMAIN, 'testTag', 'dbPath: %{public}s', dbPath);
-
-      // 确保目录存在
-      const isDirExist = fs.accessSync(dbDirectory, fs.AccessModeType.EXIST);
-      if (!isDirExist) {
-        await fs.mkdir(dbDirectory, true);
-        hilog.info(DOMAIN, 'testTag', 'Database directory created: %{public}s', dbDirectory);
-      }
-
-      // 检查目录是否可写
-      try {
-        const testFile = `${dbDirectory}/test.tmp`;
-
-        //使用 fs.createWriteStream 创建写入流
-        const stream = fs.createWriteStream(testFile);
-        stream.write('test');
-        stream.close();
-        fs.unlinkSync(testFile);
-        hilog.info(DOMAIN, 'testTag', 'Database directory is writable');
-      } catch (error) {
-        hilog.error(DOMAIN, 'testTag', 'Database directory is not writable: %{public}s', error.message);
-      }
-
-      // 将dbPath传递到native层
-      setDatabasePath(dbPath);
-    } catch (error) {
-      const businessError = error as BusinessError;
-      hilog.error(DOMAIN, 'testTag', 'Failed to setup database path. Error: %{public}s, Code: %{public}d',
-        businessError.message, businessError.code);
+  // 插入新记录
+  public insertPerson(name: string, age: number, email: string,
+    callback: (err: Error | null, rowId?: number) => void): void {
+    if (!this.rdbStore) {
+      callback(new Error('Database not initialized'));
+      return;
     }
+
+    const valuesBucket: relationalStore.ValuesBucket = {
+      'name': name,
+      'age': age,
+      'email': email
+    };
+
+    this.rdbStore.insert('personmanager', valuesBucket, (err, rowId) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, rowId);
+      }
+    });
   }
-}
 
-// 定义native模块的接口
-interface EntryNativeModule {
-  setDatabasePath(path: string): void;
-
-  getDatabasePath(): string;
-}
-
-// 声明 requireNapi 函数，使用明确的返回类型
-declare function requireNapi(moduleName: string): EntryNativeModule | undefined;
-
-// 实现setDatabasePath函数，通过NAPI调用native层
-function setDatabasePath(dbPath: string) {
-  // 通过native方法设置数据库路径
-  try {
-    hilog.info(DOMAIN, 'testTag', 'Starting to call native setDatabasePath function');
-    // 使用明确的类型定义
-    let nativeLibrary: EntryNativeModule = requireNapi('entry') as EntryNativeModule
-    hilog.info(DOMAIN, 'testTag', 'Native library object: %{public}s', JSON.stringify(nativeLibrary));
-    if (nativeLibrary && nativeLibrary.setDatabasePath) {
-      hilog.info(DOMAIN, 'testTag', 'Successfully found native setDatabasePath function');
-      nativeLibrary.setDatabasePath(dbPath)
-      hilog.info(DOMAIN, 'testTag', 'Successfully set database path to: %{public}s', dbPath)
-    } else {
-      hilog.error(DOMAIN, 'testTag', 'Failed to set database path in native layer - function not found')
+  // 查询所有记录
+  public queryAllPersons(callback: (err: Error | null, resultSet?: relationalStore.ResultSet) => void): void {
+    if (!this.rdbStore) {
+      callback(new Error('Database not initialized'));
+      return;
     }
-  } catch (error) {
-    hilog.error(DOMAIN, 'testTag', 'Error setting database path: %{public}s', error.message)
+
+    const querySql = 'SELECT * FROM personmanager';
+    this.rdbStore.querySql(querySql, [], (err, resultSet) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, resultSet);
+      }
+    });
+  }
+
+  // 根据ID查询记录
+  public queryPersonById(id: number,
+    callback: (err: Error | null, resultSet?: relationalStore.ResultSet) => void): void {
+    if (!this.rdbStore) {
+      callback(new Error('Database not initialized'));
+      return;
+    }
+
+    const querySql = 'SELECT * FROM personmanager WHERE id = ?';
+    this.rdbStore.querySql(querySql, [id], (err, resultSet) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, resultSet);
+      }
+    });
+  }
+
+  // 更新记录
+  public updatePerson(id: number, name: string, age: number, email: string,
+    callback: (err: Error | null, count?: number) => void): void {
+    if (!this.rdbStore) {
+      callback(new Error('Database not initialized'));
+      return;
+    }
+
+    // 显式声明类型，避免类型推断错误
+    const valuesBucket: relationalStore.ValuesBucket = {
+      'name': name,
+      'age': age,
+      'email': email
+    };
+
+    const predicates = new relationalStore.RdbPredicates('personmanager');
+    predicates.equalTo('id', id);
+
+    // this.rdbStore.update('personmanager', valuesBucket, predicates, (err, count) => {
+    //   if (err) {
+    //     callback(err);
+    //   } else {
+    //     callback(null, count);
+    //   }
+    // });
+  }
+
+  // 删除记录
+  public deletePerson(id: number, callback: (err: Error | null, count?: number) => void): void {
+    if (!this.rdbStore) {
+      callback(new Error('Database not initialized'));
+      return;
+    }
+
+    const predicates = new relationalStore.RdbPredicates('personmanager');
+    predicates.equalTo('id', id);
+
+    this.rdbStore.delete(predicates, (err, count) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, count);
+      }
+    });
+  }
+  
+
+  private initDatabase() {
+    const context: Context = this.context;
+
+    // 数据库配置：名称为 mydatabase.db
+    const STORE_CONFIG: relationalStore.StoreConfig = {
+      name: 'mydatabase.db',
+      securityLevel: relationalStore.SecurityLevel.S1 // S1 表示加密级别（普通）
+    };
+
+    // 获取数据库实例
+    relationalStore.getRdbStore(context, STORE_CONFIG, (err, store) => {
+      if (err) {
+        console.error('Failed to get RdbStore. Error: ' + JSON.stringify(err));
+        return;
+      }
+      this.rdbStore = store;
+      console.log('Successfully opened database: mydatabase.db');
+
+      // 创建 personmanager 表
+      const createTableSql = `
+        CREATE TABLE IF NOT EXISTS personmanager (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          age INTEGER,
+          email TEXT UNIQUE
+        );
+      `;
+
+      store.executeSql(createTableSql, null, (err) => {
+        if (err) {
+          console.error('Failed to create table personmanager. Error: ' + JSON.stringify(err));
+        } else {
+          console.log('Table personmanager created or already exists.');
+
+          //插入一条测试数据
+          const valuesBucket: relationalStore.ValuesBucket = {
+            'name': '张三',
+            'age': 28,
+            'email': 'zhangsan@example.com'
+          };
+          // 插入数据
+          store.insert('personmanager', valuesBucket, (err, rowId) => {
+            if (err) {
+              console.error('Insert failed:', JSON.stringify(err));
+            } else {
+              console.log('Inserted row ID:', rowId);
+            }
+          });
+        }
+      });
+    });
   }
 }

@@ -8,7 +8,9 @@
     "reqPermissions": [
       "ohos.permission.DISTRIBUTED_DATASYNC",
       "ohos.permission.READ_USER_DATA",
-      "ohos.permission.WRITE_USER_DATA"
+      "ohos.permission.WRITE_USER_DATA",
+      "ohos.permission.WRITE_EXTERNAL_STORAGE",
+      "hos.permission.READ_EXTERNAL_STORAGE"
     ]
   }
 }

@@ -16,6 +16,7 @@
  */
 
 import { ArkUIViewController } from "compose/src/main/cpp/types/libcompose_arkui_utils";
+import { resourceManager } from "@kit.LocalizationKit";
 
 export const add: (a: number, b: number) => number;
 

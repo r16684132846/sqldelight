@@ -63,7 +63,7 @@ import com.tencent.compose.db.MyDatabase
 import com.tencent.compose.sample.XmlUtilTest
 import com.tencent.compose.sample.KsoupTest
 import com.tencent.compose.sample.backhandler.BackHandler
-import com.tencent.compose.sample.createTestDriver
+//import com.tencent.compose.sample.createTestDriver
 import com.tencent.compose.sample.data.DisplayItem
 import com.tencent.compose.sample.data.DisplaySection
 import com.tencent.compose.sample.rememberLocalImage
@@ -115,45 +115,45 @@ fun testXmlUtil(): String {
     }
 }
 
-fun testDatabase(): String {
-    return try {
-        // 创建数据库驱动和实例
-        val driver = createTestDriver()
-        val database = MyDatabase(driver)
-        val personQueries = database.personQueries
-
-        // 测试数据库操作
-        // 1. 清空现有数据
-        personQueries.deleteAll()
-
-        // 2. 插入测试数据
-        personQueries.insertPerson(1, "测试用户", 25)
-
-        // 3. 查询数据
-        val persons = personQueries.selectAll().executeAsList()
-
-        // 4. 验证数据
-        if (persons.isNotEmpty() && persons[0].name == "测试用户") {
-            // 5. 更新数据
-            personQueries.updatePerson("更新用户", 30, 1)
-            val updatedPerson = personQueries.selectById(1).executeAsOneOrNull()
-
-            // 6. 删除数据
-            personQueries.deletePerson(1)
-            val remainingPersons = personQueries.selectAll().executeAsList()
-
-            if (remainingPersons.isEmpty() && updatedPerson?.name == "更新用户") {
-                "SQLDelight数据库测试通过: 增删改查功能正常"
-            } else {
-                "SQLDelight数据库测试失败: 数据操作结果不符合预期"
-            }
-        } else {
-            "SQLDelight数据库测试失败: 数据插入或查询失败"
-        }
-    } catch (e: Exception) {
-        "数据库测试失败: ${e.message}"
-    }
-}
+//fun testDatabase(): String {
+//    return try {
+//        // 创建数据库驱动和实例
+//        val driver = createTestDriver()
+//        val database = MyDatabase(driver)
+//        val personQueries = database.personQueries
+//
+//        // 测试数据库操作
+//        // 1. 清空现有数据
+//        personQueries.deleteAll()
+//
+//        // 2. 插入测试数据
+//        personQueries.insertPerson(1, "测试用户", 25)
+//
+//        // 3. 查询数据
+//        val persons = personQueries.selectAll().executeAsList()
+//
+//        // 4. 验证数据
+//        if (persons.isNotEmpty() && persons[0].name == "测试用户") {
+//            // 5. 更新数据
+//            personQueries.updatePerson("更新用户", 30, 1)
+//            val updatedPerson = personQueries.selectById(1).executeAsOneOrNull()
+//
+//            // 6. 删除数据
+//            personQueries.deletePerson(1)
+//            val remainingPersons = personQueries.selectAll().executeAsList()
+//
+//            if (remainingPersons.isEmpty() && updatedPerson?.name == "更新用户") {
+//                "SQLDelight数据库测试通过: 增删改查功能正常"
+//            } else {
+//                "SQLDelight数据库测试失败: 数据操作结果不符合预期"
+//            }
+//        } else {
+//            "SQLDelight数据库测试失败: 数据插入或查询失败"
+//        }
+//    } catch (e: Exception) {
+//        "数据库测试失败: ${e.message}"
+//    }
+//}
 
 
 fun testKsoup(): String {
@@ -187,10 +187,10 @@ internal fun MainPage(skiaRender: Boolean = true) {
             title = {
 //                val title = testKsoup()
 //                val title = testXmlUtil()
-                val title = testDatabase()
+//                val title = testDatabase()
 //                val title = testXmlUtil()
 //                val title = testCoroutines()
-//                val title = testJson()
+                val title = testJson()
                 Text(title)
             }
         )

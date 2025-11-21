@@ -64,7 +64,10 @@ kotlin {
             baseName = "kn"
             export(libs.compose.multiplatform.export)
             // 添加链接器选项以使用本地sqlite3库
-            linkerOpts("-L${projectDir}/src/ohosArm64Main/cinterop/libs", "-lsqlite3")
+            linkerOpts(
+                "-L${projectDir}/src/ohosArm64Main/cinterop/libs",
+                "-lsqlite3"
+            )
         }
 
         val main by compilations.getting
@@ -75,6 +78,10 @@ kotlin {
         }
         val sqlite3 by main.cinterops.creating {
             defFile(file("src/ohosArm64Main/cinterop/sqlite3.def"))
+            includeDirs(file("${projectDir}/src/ohosArm64Main/cinterop/include"))
+        }
+        val napiBindings by main.cinterops.creating {
+            defFile(file("src/ohosArm64Main/cinterop/napiBindings.def"))
             includeDirs(file("${projectDir}/src/ohosArm64Main/cinterop/include"))
         }
     }

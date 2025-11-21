@@ -18,6 +18,10 @@
 import { Compose } from 'compose';
 import { MainArkUIViewController } from 'libentry.so';
 import { registerComposeInteropBuilders } from './ComposeSample';
+import EntryAbility from '../entryability/EntryAbility';
+
+// 将 EntryAbility 导出到全局作用域，以便 C++ 层可以调用
+globalThis.EntryAbility = EntryAbility;
 
 registerComposeInteropBuilders();
 

@@ -21,7 +21,7 @@ import com.tencent.compose.sample.InteropListNested
 import com.tencent.compose.sample.InteropListSimple
 import com.tencent.compose.sample.InteropRenderOrder
 import com.tencent.compose.sample.InteropTextInput
-import com.tencent.compose.sample.SqlDelightDemo
+import com.tencent.compose.sample.SqlDelightTest
 import com.tencent.compose.sample.data.DisplayItem
 import composesample.composeapp.generated.resources.Res
 import composesample.composeapp.generated.resources.interop_list
@@ -37,6 +37,6 @@ internal actual fun platformSections(): List<DisplayItem> {
         DisplayItem("混排滑动", Res.drawable.interop_list) { InteropListSimple() },
         DisplayItem("混排嵌滑", Res.drawable.interop_nested_scroll) { InteropListNested() },
         DisplayItem("混排状态", Res.drawable.interop_state) { InteropTextInput() },
-        DisplayItem("SqlDelight鸿蒙测试", Res.drawable.interop_list) { SqlDelightDemo() }
+        DisplayItem("SqlDelight鸿蒙测试", Res.drawable.interop_list) { SqlDelightTest() }
     )
 }

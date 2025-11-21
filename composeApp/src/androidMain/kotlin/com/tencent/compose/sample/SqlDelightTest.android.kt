@@ -1,11 +1,33 @@
 package com.tencent.compose.sample
 
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.tencent.compose.applicationContext
-import com.tencent.compose.db.MyDatabase
+actual fun querysql(callback: (err: Exception?, resultSet: Any?) -> Unit) {
+}
 
-actual fun createTestDriver(): SqlDriver {
-    // 使用应用上下文而不是测试框架的 InstrumentationRegistry
-    return AndroidSqliteDriver(MyDatabase.Schema, applicationContext)
+actual fun updatesql(
+    id: Long,
+    name: String,
+    age: Int,
+    email: String,
+    callback: (err: Exception?, count: Int?) -> Unit
+) {
+}
+
+actual fun deletesql(
+    id: Long,
+    callback: (err: Exception?, count: Int?) -> Unit
+) {
+}
+
+actual fun insertsql(
+    name: String,
+    age: Int,
+    email: String,
+    callback: (err: Exception?, rowId: Long?) -> Unit
+) {
+}
+
+actual fun processResultSet(
+    resultSet: Any,
+    callback: (List<Map<String, Any>>) -> Unit
+) {
 }

@@ -27,6 +27,10 @@
     {
       "name": "location_permission_reason",
       "value": "需要位置权限来录音"
+    },
+    {
+      "name": "distributed_data_sync_reason",
+      "value": "需要分布式数据同步权限来访问数据库文件"
     }
   ]
 }
